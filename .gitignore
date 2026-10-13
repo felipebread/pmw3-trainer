@@ -1,0 +1,8 @@
+# Windows Explorer metadata
+Thumbs.db
+Desktop.ini
+
+# Temporary files and local backups
+*.tmp
+*.bak
+*~

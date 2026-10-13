@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="46">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"HP"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"PMA_W32_M.exe"+003CDF50</Address>
+      <Offsets>
+        <Offset>940</Offset>
+        <Offset>C4</Offset>
+        <Offset>84</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Lives"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"PMA_W32_M.exe"+003CDF50</Address>
+      <Offsets>
+        <Offset>944</Offset>
+        <Offset>C4</Offset>
+        <Offset>84</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Disable damage"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+assert("PMA_W32_M.exe"+D0672,75 09)
+
+"PMA_W32_M.exe"+D0672:
+  db EB 09
+
+[DISABLE]
+"PMA_W32_M.exe"+D0672:
+  db 75 09
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Infinite Powerup Duration"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+assert("PMA_W32_M.exe"+18586B,D9 9D DC 07 00 00)
+
+"PMA_W32_M.exe"+18586B:
+  fstp st(0)
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+18586B:
+  db D9 9D DC 07 00 00
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>100</ID>
+      <Description>"Give Power-Up (enable while playing a level) (enabling failed? restart the game and Cheat Engine.)"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+// Tested executable's update prologue and activation entry.
+assert("PMA_W32_M.exe"+185590,81 EC A0 00 00 00 53 55 56 8B E9)
+assert("PMA_W32_M.exe"+17B270,83 EC 08 E9 93 5D EC FF)
+alloc(PMW3GiveMemory,0x1000,"PMA_W32_M.exe"+185590)
+label(PMW3GiveCode)
+label(PMW3GiveOriginal)
+label(PMW3GiveUnlock)
+label(PMW3GiveInvalid)
+label(PMW3GiveRequest)
+label(PMW3GiveCount)
+label(PMW3GiveLastID)
+label(PMW3GiveLastPlayer)
+label(PMW3GiveStatus)
+label(PMW3GiveBusy)
+registersymbol(PMW3GiveRequest)
+registersymbol(PMW3GiveCount)
+registersymbol(PMW3GiveLastID)
+registersymbol(PMW3GiveLastPlayer)
+registersymbol(PMW3GiveStatus)
+
+PMW3GiveMemory:
+PMW3GiveRequest:
+  dd FFFFFFFF
+PMW3GiveCount:
+  dd 0
+PMW3GiveLastID:
+  dd FFFFFFFF
+PMW3GiveLastPlayer:
+  dd 0
+PMW3GiveStatus:
+  dd 0
+PMW3GiveBusy:
+  dd 0
+
+PMW3GiveCode:
+  pushfd
+  pushad
+
+  // Only accept the player resolved by the tested pointer chain.
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je PMW3GiveOriginal
+  mov eax,[eax+24]
+  test eax,eax
+  je PMW3GiveOriginal
+  cmp eax,ecx
+  jne PMW3GiveOriginal
+  mov [PMW3GiveLastPlayer],ecx
+
+  // Original update sets this field to 1 after its initial setup.
+  cmp dword ptr [ecx+7D4],0
+  je PMW3GiveOriginal
+  cmp dword ptr [PMW3GiveRequest],FFFFFFFF
+  je PMW3GiveOriginal
+
+  // Avoid dispatching recursively or concurrently through this hook.
+  mov edx,1
+  xchg dword ptr [PMW3GiveBusy],edx
+  test edx,edx
+  jne PMW3GiveOriginal
+
+  // Consume once. Unsigned comparison rejects negatives as well as &gt;= 6.
+  mov eax,FFFFFFFF
+  xchg dword ptr [PMW3GiveRequest],eax
+  cmp eax,5
+  ja PMW3GiveInvalid
+  mov [PMW3GiveLastID],eax
+
+  // Preserve the caller's x87/SSE state in a 16-byte-aligned 512-byte area.
+  // EBX is callee-saved by the game's activation routine.
+  mov ebx,esp
+  sub esp,210
+  and esp,FFFFFFF0
+  fxsave [esp]
+  fninit
+  fldcw word ptr [esp]
+  cld
+
+  // thiscall: ECX = player, [ESP+4] = ID at function entry.
+  // Activation returns with RET 4, so do not adjust ESP after the call.
+  push eax
+  call "PMA_W32_M.exe"+17B270
+
+  fxrstor [esp]
+  mov esp,ebx
+  inc dword ptr [PMW3GiveCount]
+  mov dword ptr [PMW3GiveStatus],1
+  jmp PMW3GiveUnlock
+
+PMW3GiveInvalid:
+  mov dword ptr [PMW3GiveStatus],2
+PMW3GiveUnlock:
+  mov dword ptr [PMW3GiveBusy],0
+PMW3GiveOriginal:
+  popad
+  popfd
+  // Replay the entire overwritten instruction, then resume the update.
+  sub esp,A0
+  jmp "PMA_W32_M.exe"+185596
+
+"PMA_W32_M.exe"+185590:
+  jmp PMW3GiveCode
+  nop
+
+[DISABLE]
+PMW3GiveRequest:
+  dd FFFFFFFF
+"PMA_W32_M.exe"+185590:
+  db 81 EC A0 00 00 00
+unregistersymbol(PMW3GiveRequest)
+unregistersymbol(PMW3GiveCount)
+unregistersymbol(PMW3GiveLastID)
+unregistersymbol(PMW3GiveLastPlayer)
+unregistersymbol(PMW3GiveStatus)
+// Intentionally retain this small allocation until the process exits:
+// a thread already executing the hook must not return into freed memory.
+// Each re-enable allocates another 4 KiB.
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>101</ID>
+          <Description>"REQUEST power-up (edit Value once; NEVER freeze)"</Description>
+          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">-1:Idle / no request
+0:Ghost Pellet
+1:Chrome
+2:Slowdown (beta)
+3:Loop
+4:Super
+5:Shock
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>PMW3GiveRequest</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"powerID (test)"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"PMA_W32_M.exe"+003CDF3C</Address>
+      <Offsets>
+        <Offset>7E0</Offset>
+        <Offset>24</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>
