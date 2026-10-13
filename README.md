@@ -2,7 +2,7 @@
 
 A Cheat Engine trainer (currently just a cheat table) for the PC version of **Pac-Man World 3**, with many cool features. Similar to my FPS uncap patch, this also targets the RELOADED NoDisc PAL release.
 
-**Current version: PMW_CT_beta0001**
+**Current version: PMW3_CT_beta0001**
 
 ### AI Disclaimer
 <sup><sub>Reported Engagement with AI Level</sub></sup>
