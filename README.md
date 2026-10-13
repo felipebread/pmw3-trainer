@@ -6,6 +6,7 @@ A Cheat Engine trainer (currently just a cheat table) for the PC version of **Pa
 
 ### AI Disclaimer
 <sup><sub>Reported Engagement with AI Level</sub></sup>
+
 *REAL 4: AI models were an active collaborator in the making of this project,*
 *generating a major partion of the core content, code and data processing.*
 
