@@ -73,6 +73,6 @@ See [CHANGELOGS.md](CHANGELOGS.md) for the version history.
 
 ## License
 
-The cheat table and accompanying documentation are available under the [MIT License](LICENSE).
+The cheat table and accompanying documentation are available under the [public domain](LICENSE).
 
 This is an unofficial personal project and is not affiliated with the game's developers or publishers. Pac-Man World 3 and its associated trademarks belong to their respective owners.
