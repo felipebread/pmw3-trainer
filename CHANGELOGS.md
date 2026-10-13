@@ -28,7 +28,7 @@
 - No issues observed during testing. Stable and works across levels.
 - Development-only build. Does not include any other features.
 
-## PMW_CT_beta0001:
+## PMW3_CT_beta0001:
 
 - First public beta.
 - Merged CT_alpha0002_DEBUG_1 and PMW3GivePowerUp-Alpha1
