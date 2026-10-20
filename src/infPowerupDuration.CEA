@@ -1,0 +1,13 @@
+[ENABLE]
+assert("PMA_W32_M.exe"+18586B,D9 9D DC 07 00 00)
+
+"PMA_W32_M.exe"+18586B:
+  fstp st(0)
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+18586B:
+  db D9 9D DC 07 00 00

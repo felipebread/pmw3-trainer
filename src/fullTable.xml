@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="46">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"1. HP"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"PMA_W32_M.exe"+003CDF50</Address>
+      <Offsets>
+        <Offset>940</Offset>
+        <Offset>C4</Offset>
+        <Offset>84</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"2. Lives"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"PMA_W32_M.exe"+003CDF50</Address>
+      <Offsets>
+        <Offset>944</Offset>
+        <Offset>C4</Offset>
+        <Offset>84</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"3. Disable damage (enabling failed? restart the game and Cheat Engine.)"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+assert("PMA_W32_M.exe"+D0672,75 09)
+
+"PMA_W32_M.exe"+D0672:
+  db EB 09
+
+[DISABLE]
+"PMA_W32_M.exe"+D0672:
+  db 75 09
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"4. Infinite Powerup Duration"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+assert("PMA_W32_M.exe"+18586B,D9 9D DC 07 00 00)
+
+"PMA_W32_M.exe"+18586B:
+  fstp st(0)
+  nop
+  nop
+  nop
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+18586B:
+  db D9 9D DC 07 00 00
+
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>100</ID>
+      <Description>"5. Give Power-Up (enable while playing a level) (enabling failed? restart the game and Cheat Engine.)"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+// Tested executable's update prologue and activation entry.
+assert("PMA_W32_M.exe"+185590,81 EC A0 00 00 00 53 55 56 8B E9)
+assert("PMA_W32_M.exe"+17B270,83 EC 08 E9 93 5D EC FF)
+alloc(PMW3GiveMemory,0x1000,"PMA_W32_M.exe"+185590)
+label(PMW3GiveCode)
+label(PMW3GiveOriginal)
+label(PMW3GiveUnlock)
+label(PMW3GiveInvalid)
+label(PMW3GiveRequest)
+label(PMW3GiveBusy)
+registersymbol(PMW3GiveRequest)
+
+PMW3GiveMemory:
+PMW3GiveRequest:
+  dd FFFFFFFF
+PMW3GiveBusy:
+  dd 0
+
+PMW3GiveCode:
+  pushfd
+  pushad
+
+  // Only accept the player resolved by the tested pointer chain.
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je PMW3GiveOriginal
+  mov eax,[eax+24]
+  test eax,eax
+  je PMW3GiveOriginal
+  cmp eax,ecx
+  jne PMW3GiveOriginal
+
+  // Original update sets this field to 1 after its initial setup.
+  cmp dword ptr [ecx+7D4],0
+  je PMW3GiveOriginal
+  cmp dword ptr [PMW3GiveRequest],FFFFFFFF
+  je PMW3GiveOriginal
+
+  // Avoid dispatching recursively or concurrently through this hook.
+  mov edx,1
+  xchg dword ptr [PMW3GiveBusy],edx
+  test edx,edx
+  jne PMW3GiveOriginal
+
+  // Consume once. Unsigned comparison rejects negatives as well as &gt;= 6.
+  mov eax,FFFFFFFF
+  xchg dword ptr [PMW3GiveRequest],eax
+  cmp eax,5
+  ja PMW3GiveInvalid
+
+  // Preserve the caller's x87/SSE state in a 16-byte-aligned 512-byte area.
+  // EBX is callee-saved by the game's activation routine.
+  mov ebx,esp
+  sub esp,210
+  and esp,FFFFFFF0
+  fxsave [esp]
+  fninit
+  fldcw word ptr [esp]
+  cld
+
+  // thiscall: ECX = player, [ESP+4] = ID at function entry.
+  // Activation returns with RET 4, so do not adjust ESP after the call.
+  push eax
+  call "PMA_W32_M.exe"+17B270
+
+  fxrstor [esp]
+  mov esp,ebx
+  jmp PMW3GiveUnlock
+
+PMW3GiveInvalid:
+PMW3GiveUnlock:
+  mov dword ptr [PMW3GiveBusy],0
+PMW3GiveOriginal:
+  popad
+  popfd
+  // Replay the entire overwritten instruction, then resume the update.
+  sub esp,A0
+  jmp "PMA_W32_M.exe"+185596
+
+"PMA_W32_M.exe"+185590:
+  jmp PMW3GiveCode
+  nop
+
+[DISABLE]
+PMW3GiveRequest:
+  dd FFFFFFFF
+"PMA_W32_M.exe"+185590:
+  db 81 EC A0 00 00 00
+unregistersymbol(PMW3GiveRequest)
+// Intentionally retain this small allocation until the process exits:
+// a thread already executing the hook must not return into freed memory.
+// Each re-enable allocates another 4 KiB.
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>101</ID>
+          <Description>"REQUEST power-up (edit Value once; NEVER freeze)"</Description>
+          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">-1:Idle / no request
+0:Ghost Pellet
+1:Chrome
+2:Slowdown (beta)
+3:Loop
+4:Super Stomp
+5:Shock
+</DropDownList>
+          <ShowAsSigned>1</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>PMW3GiveRequest</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>103</ID>
+      <Description>"6. Movement"</Description>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>0</ID>
+          <Description>"Super Speed"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+assert("PMA_W32_M.exe"+18429A,D8 0D 3C 1B 73 00)
+
+alloc(pmwSpeedCode,1024,"PMA_W32_M.exe"+18429A)
+label(pmwSpeedReturn)
+label(pmwSpeedDone)
+label(pmwSpeedMultiplier)
+
+registersymbol(pmwSpeedMultiplier)
+
+pmwSpeedCode:
+  // Original instruction.
+  fmul dword ptr ["PMA_W32_M.exe"+331B3C]
+
+  // Preserve the registers and CPU flags used by our check.
+  pushfd
+  push eax
+
+  // Resolve the current player object.
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwSpeedDone
+
+  mov eax,[eax+24]
+  cmp esi,eax
+  jne pmwSpeedDone
+
+  // Scale the freshly calculated magnitude for Pac-Man only.
+  fmul dword ptr [pmwSpeedMultiplier]
+
+pmwSpeedDone:
+  pop eax
+  popfd
+  jmp pmwSpeedReturn
+
+pmwSpeedMultiplier:
+  dd (float)1.25
+
+"PMA_W32_M.exe"+18429A:
+  jmp pmwSpeedCode
+  nop
+pmwSpeedReturn:
+
+[DISABLE]
+
+"PMA_W32_M.exe"+18429A:
+  db D8 0D 3C 1B 73 00
+
+unregistersymbol(pmwSpeedMultiplier)
+dealloc(pmwSpeedCode)
+
+
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>1</ID>
+              <Description>"Speed multiplier"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>pmwSpeedMultiplier</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>104</ID>
+          <Description>"Super Jump"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+assert("PMA_W32_M.exe"+CE6CE,8B 8E 78 04 00 00)
+assert("PMA_W32_M.exe"+CE6E4,E8 47 72 FB FF)
+
+alloc(pmwSJMem,$1000,"PMA_W32_M.exe"+CE6CE)
+label(pmwSJData)
+label(pmwSJBase)
+label(pmwSJBaseDone)
+registersymbol(pmwSJData)
+registersymbol(pmwSJMem)
+
+pmwSJMem:
+pmwSJBase:
+  // Replay the original load; ECX holds float bits, not an address.
+  mov ecx,[esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwSJBaseDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwSJBaseDone
+  cmp esi,eax
+  jne pmwSJBaseDone
+  push ecx
+  fld dword ptr [esp]
+  fmul dword ptr [pmwSJData]
+  fstp dword ptr [esp]
+  pop ecx
+pmwSJBaseDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+CE6D4
+
+align 10
+pmwSJData:
+  dd (float)1.25  // +00 Multiplier
+
+"PMA_W32_M.exe"+CE6CE:
+  jmp pmwSJBase
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+CE6CE:
+  db 8B 8E 78 04 00 00
+unregistersymbol(pmwSJData)
+unregistersymbol(pmwSJMem)
+// Retain the 4 KiB allocation until process exit: an in-flight hook can return.
+// Re-enabling allocates a fresh block. Pause in CE before either toggle.
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>105</ID>
+              <Description>"Jump multiplier"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>pmwSJData</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>no com</Comments>
+</CheatTable>

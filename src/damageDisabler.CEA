@@ -1,0 +1,9 @@
+[ENABLE]
+assert("PMA_W32_M.exe"+D0672,75 09)
+
+"PMA_W32_M.exe"+D0672:
+  db EB 09
+
+[DISABLE]
+"PMA_W32_M.exe"+D0672:
+  db 75 09

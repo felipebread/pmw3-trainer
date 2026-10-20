@@ -1,0 +1,50 @@
+[ENABLE]
+assert("PMA_W32_M.exe"+CE6CE,8B 8E 78 04 00 00)
+assert("PMA_W32_M.exe"+CE6E4,E8 47 72 FB FF)
+
+alloc(pmwSJMem,$1000,"PMA_W32_M.exe"+CE6CE)
+label(pmwSJData)
+label(pmwSJBase)
+label(pmwSJBaseDone)
+registersymbol(pmwSJData)
+registersymbol(pmwSJMem)
+
+pmwSJMem:
+pmwSJBase:
+  // Replay the original load; ECX holds float bits, not an address.
+  mov ecx,[esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwSJBaseDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwSJBaseDone
+  cmp esi,eax
+  jne pmwSJBaseDone
+  push ecx
+  fld dword ptr [esp]
+  fmul dword ptr [pmwSJData]
+  fstp dword ptr [esp]
+  pop ecx
+pmwSJBaseDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+CE6D4
+
+align 10
+pmwSJData:
+  dd (float)1.25  // +00 Multiplier
+
+"PMA_W32_M.exe"+CE6CE:
+  jmp pmwSJBase
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+CE6CE:
+  db 8B 8E 78 04 00 00
+unregistersymbol(pmwSJData)
+unregistersymbol(pmwSJMem)
+// Retain the 4 KiB allocation until process exit: an in-flight hook can return.
+// Re-enabling allocates a fresh block. Pause in CE before either toggle.

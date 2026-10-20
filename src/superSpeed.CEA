@@ -1,0 +1,53 @@
+[ENABLE]
+
+assert("PMA_W32_M.exe"+18429A,D8 0D 3C 1B 73 00)
+
+alloc(pmwSpeedCode,1024,"PMA_W32_M.exe"+18429A)
+label(pmwSpeedReturn)
+label(pmwSpeedDone)
+label(pmwSpeedMultiplier)
+
+registersymbol(pmwSpeedMultiplier)
+
+pmwSpeedCode:
+  // Original instruction.
+  fmul dword ptr ["PMA_W32_M.exe"+331B3C]
+
+  // Preserve the registers and CPU flags used by our check.
+  pushfd
+  push eax
+
+  // Resolve the current player object.
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwSpeedDone
+
+  mov eax,[eax+24]
+  cmp esi,eax
+  jne pmwSpeedDone
+
+  // Scale the freshly calculated magnitude for Pac-Man only.
+  fmul dword ptr [pmwSpeedMultiplier]
+
+pmwSpeedDone:
+  pop eax
+  popfd
+  jmp pmwSpeedReturn
+
+pmwSpeedMultiplier:
+  dd (float)1.25
+
+"PMA_W32_M.exe"+18429A:
+  jmp pmwSpeedCode
+  nop
+pmwSpeedReturn:
+
+[DISABLE]
+
+"PMA_W32_M.exe"+18429A:
+  db D8 0D 3C 1B 73 00
+
+unregistersymbol(pmwSpeedMultiplier)
+dealloc(pmwSpeedCode)
+
+
