@@ -53,7 +53,7 @@ Repeat the selection whenever you want to activate another power-up. **Do not ch
 
 ☑ On-demand power ups.
 
-☑ Super speeed/jump
+☑ Super speed/jump
 
 ☐ Infinite bouncing
 
