@@ -37,12 +37,12 @@ If Cheat Engine cannot attach or write to the game, ensure both programs have ma
 3. Double-click the request row's **Value** and choose the desired power-up from the dropdown.
 4. Return to the game. The selected power-up activates, and the request returns to **Idle / no request**.
 
+Repeat the selection whenever you want to activate another power-up. **Do not check or freeze the REQUEST row**; each selection is intended to request a single activation. Make requests while playing a loaded level.
+
 ### Super speed/jump
 
 1. Under **6. Movement**, enable Super Speed and/or Super Jump
 2. Double click the **multiplier** value entry and change it to your desired value.
-
-Repeat the selection whenever you want to activate another power-up. **Do not check or freeze the REQUEST row**; each selection is intended to request a single activation. Make requests while playing a loaded level.
 
 ## Roadmap
 ☑ HP and lives editing
