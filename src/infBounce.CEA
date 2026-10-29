@@ -1,0 +1,21 @@
+[ENABLE]
+// EAX is set to 1 here and stays 1 until the flag store below.
+assert("PMA_W32_M.exe"+12EC98,B8 01 00 00 00 89 47 14)
+assert("PMA_W32_M.exe"+12ECE3,39 AE E0 07 00 00 89 1D 9C DD 7C 00 75 13)
+assert("PMA_W32_M.exe"+15BA6A,39 1D 9C DD 7C 00 75 06 FF 87 D0 00 00 00)
+
+// Change only the source register: mov [007CDD9C],ebx -> mov [007CDD9C],eax.
+// EBX=0; EAX=1. MOV preserves the flags used by the following JNE.
+"PMA_W32_M.exe"+12ECEA:
+  db 05
+
+// Also enable the flag immediately, without waiting for state entry.
+"PMA_W32_M.exe"+3CDD9C:
+  dd 00000001
+
+[DISABLE]
+assert("PMA_W32_M.exe"+12ECE9,89 05 9C DD 7C 00)
+"PMA_W32_M.exe"+12ECEA:
+  db 1D
+"PMA_W32_M.exe"+3CDD9C:
+  dd 00000000

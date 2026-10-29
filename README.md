@@ -2,7 +2,7 @@
 
 A Cheat Engine trainer (currently just a cheat table) for the PC version of **Pac-Man World 3**, with many cool features. Similar to my FPS uncap patch, this also targets the RELOADED NoDisc PAL release.
 
-**Current version: Beta 1.1 (PMW3_CT_beta1_1)**
+**Current version: Beta 1.2 (PMW3_CT_beta1_2)**
 
 ### AI Disclaimer
 <sup><sub>Reported Engagement with AI Level</sub></sup>
@@ -18,31 +18,32 @@ A Cheat Engine trainer (currently just a cheat table) for the PC version of **Pa
 - **Infinite Powerup Duration** ; keep a collected or granted power-up active. Can be enabled before or after activating a power-up.
 - **Give Power-Up** ; activate Ghost Pellet, Chrome, Slowdown, Loop, Super, or Shock without collecting a pickup. Can also replace an already-active power-up.
 *power up IDS: Ghost Power Pellet = 0, Metal Pac = 1, Slowdown = 2, Ribbon Loop = 3, Super Stomp = 4, Shock = 5*
-- **Super Speed and Super Jump** ; multiplies Pac-Man's speed and jump
+- **Super Speed, Super Jump and Super Bouncinhg** ; multiplies Pac-Man's speed, jump and bounce height values.
+- **Infinite Bouncing** ; allows Pac-Man to bounce infinitely
+- **Always Strongest Bounce** ; Pac-Man will always perform the 3rd, strongest bounce.
 
 ## Usage
 
 1. Open the latest release in Cheat Engine.
 2. Start Pac-Man World 3..
 3. Click Cheat Engine's process selector (the computer icon) and attach to **PMA_W32_M.exe**.
-4. Double-click the **Value** next to **HP** or **Lives** to enter a new number. Health normally ranges from 0 to 3; lives can be set from 1 to 255, although the game displays at most 99 lives.
-5. Check **Disable damage** or **Infinite Powerup Duration** to enable them. Uncheck them to disable them.
+4. Click a group to expand it and reveal its features.
 
 If Cheat Engine cannot attach or write to the game, ensure both programs have matching administrator permissions.
 
 ### Give a power-up
 
-1. While playing a level, enable **Give Power-Up (enable while playing a level)**.
+1. While playing a level, under Power-ups, enable **Give Power-Up (enable while playing a level)**.
 2. Expand that entry to reveal **REQUEST power-up (edit Value once; NEVER freeze)**.
 3. Double-click the request row's **Value** and choose the desired power-up from the dropdown.
 4. Return to the game. The selected power-up activates, and the request returns to **Idle / no request**.
 
-### Super speed/jump
-
-1. Under **6. Movement**, enable Super Speed and/or Super Jump
-2. Double click the **multiplier** value entry and change it to your desired value.
-
 Repeat the selection whenever you want to activate another power-up. **Do not check or freeze the REQUEST row**; each selection is intended to request a single activation. Make requests while playing a loaded level.
+
+### Super speed/jump/bouncing
+
+1. Enable your desired feature.
+2. Edit the multiplier value to your target.
 
 ## Roadmap
 ☑ HP and lives editing
@@ -55,7 +56,7 @@ Repeat the selection whenever you want to activate another power-up. **Do not ch
 
 ☑ Super speed/jump
 
-☐ Infinite bouncing
+☑ Infinite bouncing
 
 ☐ Save and load coordinates
 

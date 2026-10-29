@@ -1,0 +1,96 @@
+// PMW3 PC: scales butt-bounce rebound launch strength at both consumers.
+
+[ENABLE]
+assert("PMA_W32_M.exe"+15BA1F,D9 86 78 04 00 00 8B 96 9C 01 00 00)
+assert("PMA_W32_M.exe"+15BA55,E8 C6 DC 08 00)
+assert("PMA_W32_M.exe"+15B6E3,8B 96 78 04 00 00 D9 87 DC 00 00 00)
+assert("PMA_W32_M.exe"+15B6FC,E8 2F A2 F2 FF)
+
+alloc(pmwBHMem,$1000,"PMA_W32_M.exe"+15BA1F)
+label(pmwBHLaunch)
+label(pmwBHLaunchDone)
+label(pmwBHUpdate)
+label(pmwBHUpdateDone)
+label(pmwBounceHeightMultiplier)
+registersymbol(pmwBounceHeightMultiplier)
+
+pmwBHMem:
+pmwBHLaunch:
+  // Replay the original load. Leave the player's stored parameter untouched.
+  fld dword ptr [esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwBHLaunchDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwBHLaunchDone
+  cmp esi,eax
+  jne pmwBHLaunchDone
+  // Accept positive finite floats. 1.0 and invalid inputs use original behavior.
+  mov eax,[pmwBounceHeightMultiplier]
+  test eax,eax
+  jle pmwBHLaunchDone
+  cmp eax,7F800000
+  jae pmwBHLaunchDone
+  cmp eax,3F800000
+  je pmwBHLaunchDone
+  push eax
+  fmul dword ptr [esp]
+  pop eax
+pmwBHLaunchDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+15BA25
+
+pmwBHUpdate:
+  // EDX carries float bits to the game's rebound target calculation.
+  mov edx,[esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwBHUpdateDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwBHUpdateDone
+  cmp esi,eax
+  jne pmwBHUpdateDone
+  mov eax,[pmwBounceHeightMultiplier]
+  test eax,eax
+  jle pmwBHUpdateDone
+  cmp eax,7F800000
+  jae pmwBHUpdateDone
+  cmp eax,3F800000
+  je pmwBHUpdateDone
+  push edx
+  fld dword ptr [esp]
+  mov [esp],eax
+  fmul dword ptr [esp]
+  fstp dword ptr [esp]
+  pop edx
+pmwBHUpdateDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+15B6E9
+
+align 10
+pmwBounceHeightMultiplier:
+  dd (float)1.0
+
+"PMA_W32_M.exe"+15BA1F:
+  jmp pmwBHLaunch
+  nop
+"PMA_W32_M.exe"+15B6E3:
+  jmp pmwBHUpdate
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+15BA1F:
+  db D9 86 78 04 00 00
+"PMA_W32_M.exe"+15B6E3:
+  db 8B 96 78 04 00 00
+unregistersymbol(pmwBounceHeightMultiplier)
+// Keep the 4 KiB allocation until process exit so an in-flight hook can return.
+// Each re-enable allocates a new block and resets the multiplier to 1.0.

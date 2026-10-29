@@ -2,32 +2,38 @@
 <CheatTable CheatEngineTableVersion="46">
   <CheatEntries>
     <CheatEntry>
-      <ID>2</ID>
-      <Description>"1. HP"</Description>
-      <VariableType>4 Bytes</VariableType>
-      <Address>"PMA_W32_M.exe"+003CDF50</Address>
-      <Offsets>
-        <Offset>940</Offset>
-        <Offset>C4</Offset>
-        <Offset>84</Offset>
-      </Offsets>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>3</ID>
-      <Description>"2. Lives"</Description>
-      <VariableType>4 Bytes</VariableType>
-      <Address>"PMA_W32_M.exe"+003CDF50</Address>
-      <Offsets>
-        <Offset>944</Offset>
-        <Offset>C4</Offset>
-        <Offset>84</Offset>
-      </Offsets>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>4</ID>
-      <Description>"3. Disable damage (enabling failed? restart the game and Cheat Engine.)"</Description>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[ENABLE]
+      <ID>110</ID>
+      <Description>"1. Pac-Man"</Description>
+      <Options moHideChildren="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"HP"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>"PMA_W32_M.exe"+003CDF50</Address>
+          <Offsets>
+            <Offset>940</Offset>
+            <Offset>C4</Offset>
+            <Offset>84</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Lives"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>"PMA_W32_M.exe"+003CDF50</Address>
+          <Offsets>
+            <Offset>944</Offset>
+            <Offset>C4</Offset>
+            <Offset>84</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4</ID>
+          <Description>"Disable damage (enabling failed? restart the game and Cheat Engine.)"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
 assert("PMA_W32_M.exe"+D0672,75 09)
 
 "PMA_W32_M.exe"+D0672:
@@ -38,12 +44,20 @@ assert("PMA_W32_M.exe"+D0672,75 09)
   db 75 09
 
 </AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>7</ID>
-      <Description>"4. Infinite Powerup Duration"</Description>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[ENABLE]
+      <ID>111</ID>
+      <Description>"2. Power-ups"</Description>
+      <Options moHideChildren="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"Infinite Powerup Duration"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
 assert("PMA_W32_M.exe"+18586B,D9 9D DC 07 00 00)
 
 "PMA_W32_M.exe"+18586B:
@@ -58,12 +72,13 @@ assert("PMA_W32_M.exe"+18586B,D9 9D DC 07 00 00)
   db D9 9D DC 07 00 00
 
 </AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>100</ID>
-      <Description>"5. Give Power-Up (enable while playing a level) (enabling failed? restart the game and Cheat Engine.)"</Description>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>[ENABLE]
+        </CheatEntry>
+        <CheatEntry>
+          <ID>100</ID>
+          <Description>"Give Power-Up (enable while playing a level) (enabling failed? restart the game and Cheat Engine.)"</Description>
+          <Options moHideChildren="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
 // Tested executable's update prologue and activation entry.
 assert("PMA_W32_M.exe"+185590,81 EC A0 00 00 00 53 55 56 8B E9)
 assert("PMA_W32_M.exe"+17B270,83 EC 08 E9 93 5D EC FF)
@@ -157,11 +172,11 @@ unregistersymbol(PMW3GiveRequest)
 // a thread already executing the hook must not return into freed memory.
 // Each re-enable allocates another 4 KiB.
 </AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>101</ID>
-          <Description>"REQUEST power-up (edit Value once; NEVER freeze)"</Description>
-          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">-1:Idle / no request
+          <CheatEntries>
+            <CheatEntry>
+              <ID>101</ID>
+              <Description>"REQUEST power-up (edit Value once; NEVER freeze)"</Description>
+              <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">-1:Idle / no request
 0:Ghost Pellet
 1:Chrome
 2:Slowdown (beta)
@@ -169,20 +184,24 @@ unregistersymbol(PMW3GiveRequest)
 4:Super Stomp
 5:Shock
 </DropDownList>
-          <ShowAsSigned>1</ShowAsSigned>
-          <VariableType>4 Bytes</VariableType>
-          <Address>PMW3GiveRequest</Address>
+              <ShowAsSigned>1</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>PMW3GiveRequest</Address>
+            </CheatEntry>
+          </CheatEntries>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>103</ID>
-      <Description>"6. Movement"</Description>
+      <Description>"3. Movement"</Description>
+      <Options moHideChildren="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>0</ID>
           <Description>"Super Speed"</Description>
+          <Options moHideChildren="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 
@@ -251,6 +270,7 @@ dealloc(pmwSpeedCode)
         <CheatEntry>
           <ID>104</ID>
           <Description>"Super Jump"</Description>
+          <Options moHideChildren="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 assert("PMA_W32_M.exe"+CE6CE,8B 8E 78 04 00 00)
@@ -261,7 +281,6 @@ label(pmwSJData)
 label(pmwSJBase)
 label(pmwSJBaseDone)
 registersymbol(pmwSJData)
-registersymbol(pmwSJMem)
 
 pmwSJMem:
 pmwSJBase:
@@ -299,7 +318,6 @@ pmwSJData:
 "PMA_W32_M.exe"+CE6CE:
   db 8B 8E 78 04 00 00
 unregistersymbol(pmwSJData)
-unregistersymbol(pmwSJMem)
 // Retain the 4 KiB allocation until process exit: an in-flight hook can return.
 // Re-enabling allocates a fresh block. Pause in CE before either toggle.
 </AssemblerScript>
@@ -315,7 +333,201 @@ unregistersymbol(pmwSJMem)
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
+    <CheatEntry>
+      <ID>107</ID>
+      <Description>"4. Bouncing"</Description>
+      <Options moHideChildren="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>106</ID>
+          <Description>"Infinite Bouncing"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+// EAX is set to 1 here and stays 1 until the flag store below.
+assert("PMA_W32_M.exe"+12EC98,B8 01 00 00 00 89 47 14)
+assert("PMA_W32_M.exe"+12ECE3,39 AE E0 07 00 00 89 1D 9C DD 7C 00 75 13)
+assert("PMA_W32_M.exe"+15BA6A,39 1D 9C DD 7C 00 75 06 FF 87 D0 00 00 00)
+
+// Change only the source register: mov [007CDD9C],ebx -&gt; mov [007CDD9C],eax.
+// EBX=0; EAX=1. MOV preserves the flags used by the following JNE.
+"PMA_W32_M.exe"+12ECEA:
+  db 05
+
+// Also enable the flag immediately, without waiting for state entry.
+"PMA_W32_M.exe"+3CDD9C:
+  dd 00000001
+
+[DISABLE]
+assert("PMA_W32_M.exe"+12ECE9,89 05 9C DD 7C 00)
+"PMA_W32_M.exe"+12ECEA:
+  db 1D
+"PMA_W32_M.exe"+3CDD9C:
+  dd 00000000
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>108</ID>
+          <Description>"Super Bounce"</Description>
+          <Options moHideChildren="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>// PMW3 PC: scales butt-bounce rebound launch strength at both consumers.
+
+[ENABLE]
+assert("PMA_W32_M.exe"+15BA1F,D9 86 78 04 00 00 8B 96 9C 01 00 00)
+assert("PMA_W32_M.exe"+15BA55,E8 C6 DC 08 00)
+assert("PMA_W32_M.exe"+15B6E3,8B 96 78 04 00 00 D9 87 DC 00 00 00)
+assert("PMA_W32_M.exe"+15B6FC,E8 2F A2 F2 FF)
+
+alloc(pmwBHMem,$1000,"PMA_W32_M.exe"+15BA1F)
+label(pmwBHLaunch)
+label(pmwBHLaunchDone)
+label(pmwBHUpdate)
+label(pmwBHUpdateDone)
+label(pmwBounceHeightMultiplier)
+registersymbol(pmwBounceHeightMultiplier)
+
+pmwBHMem:
+pmwBHLaunch:
+  // Replay the original load. Leave the player's stored parameter untouched.
+  fld dword ptr [esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwBHLaunchDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwBHLaunchDone
+  cmp esi,eax
+  jne pmwBHLaunchDone
+  // Accept positive finite floats. 1.0 and invalid inputs use original behavior.
+  mov eax,[pmwBounceHeightMultiplier]
+  test eax,eax
+  jle pmwBHLaunchDone
+  cmp eax,7F800000
+  jae pmwBHLaunchDone
+  cmp eax,3F800000
+  je pmwBHLaunchDone
+  push eax
+  fmul dword ptr [esp]
+  pop eax
+pmwBHLaunchDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+15BA25
+
+pmwBHUpdate:
+  // EDX carries float bits to the game's rebound target calculation.
+  mov edx,[esi+478]
+  pushfd
+  push eax
+  mov eax,["PMA_W32_M.exe"+3CDF3C]
+  test eax,eax
+  je pmwBHUpdateDone
+  mov eax,[eax+24]
+  test eax,eax
+  je pmwBHUpdateDone
+  cmp esi,eax
+  jne pmwBHUpdateDone
+  mov eax,[pmwBounceHeightMultiplier]
+  test eax,eax
+  jle pmwBHUpdateDone
+  cmp eax,7F800000
+  jae pmwBHUpdateDone
+  cmp eax,3F800000
+  je pmwBHUpdateDone
+  push edx
+  fld dword ptr [esp]
+  mov [esp],eax
+  fmul dword ptr [esp]
+  fstp dword ptr [esp]
+  pop edx
+pmwBHUpdateDone:
+  pop eax
+  popfd
+  jmp "PMA_W32_M.exe"+15B6E9
+
+align 10
+pmwBounceHeightMultiplier:
+  dd (float)1.0
+
+"PMA_W32_M.exe"+15BA1F:
+  jmp pmwBHLaunch
+  nop
+"PMA_W32_M.exe"+15B6E3:
+  jmp pmwBHUpdate
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+15BA1F:
+  db D9 86 78 04 00 00
+"PMA_W32_M.exe"+15B6E3:
+  db 8B 96 78 04 00 00
+unregistersymbol(pmwBounceHeightMultiplier)
+// Keep the 4 KiB allocation until process exit so an in-flight hook can return.
+// Each re-enable allocates a new block and resets the multiplier to 1.0.
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>109</ID>
+              <Description>"Bounce height multiplier"</Description>
+              <VariableType>Float</VariableType>
+              <Address>pmwBounceHeightMultiplier</Address>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>112</ID>
+          <Description>"Always Strongest Bounce"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>// PMW3 PC: select the third normal butt-bounce attack on every stage start.
+
+[ENABLE]
+assert("PMA_W32_M.exe"+83383,8B 87 D0 00 00 00 3B C3 75 08 89 AE 14 04 00 00)
+assert("PMA_W32_M.exe"+833A5,83 F8 02 75 0A C7 86 14 04 00 00 03 00 00 00)
+assert("PMA_W32_M.exe"+8330A,8B 86 E0 07 00 00 B9 04 00 00 00 3B C1 DF E0 75 3B)
+
+alloc(pmwStrongBounceMem,$1000,"PMA_W32_M.exe"+83383)
+label(pmwStrongBounceDone)
+
+pmwStrongBounceMem:
+  // Replay the original load. The real combo counter remains untouched.
+  mov eax,[edi+D0]
+  pushfd
+  push edx
+  mov edx,["PMA_W32_M.exe"+3CDF3C]
+  test edx,edx
+  je pmwStrongBounceDone
+  mov edx,[edx+24]
+  test edx,edx
+  je pmwStrongBounceDone
+  cmp esi,edx
+  jne pmwStrongBounceDone
+  // The original selector maps zero-based counter 2 to attack stage 3.
+  // Super Stomp follows a different branch and never reaches this hook.
+  mov eax,2
+pmwStrongBounceDone:
+  pop edx
+  popfd
+  jmp "PMA_W32_M.exe"+83389
+
+"PMA_W32_M.exe"+83383:
+  jmp pmwStrongBounceMem
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+83383:
+  db 8B 87 D0 00 00 00
+// Retain the 4 KiB allocation until process exit so an in-flight hook can return.
+// Each re-enable allocates a fresh block. The next stage uses normal selection.
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
-  <Comments>no com</Comments>
+  <Comments>Beta 1.2.
+PS the multipliers might not be on a linear scale.
+</Comments>
 </CheatTable>

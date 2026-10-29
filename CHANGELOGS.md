@@ -48,3 +48,10 @@
 - Added super jump, super speed
 - Cleaned up debugging code (reduced table file size by 30%!!!)
 - No issues observed during testing.
+
+## PMW3_CT_beta1_2
+- Version Beta 1.2
+- Added infinite bouncing, super bounce and always super bounce.
+- Cleaned up the UI
+- Removed debugging features.
+- No issues observed during testing.

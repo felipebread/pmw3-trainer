@@ -7,7 +7,6 @@ label(pmwSJData)
 label(pmwSJBase)
 label(pmwSJBaseDone)
 registersymbol(pmwSJData)
-registersymbol(pmwSJMem)
 
 pmwSJMem:
 pmwSJBase:
@@ -45,6 +44,5 @@ pmwSJData:
 "PMA_W32_M.exe"+CE6CE:
   db 8B 8E 78 04 00 00
 unregistersymbol(pmwSJData)
-unregistersymbol(pmwSJMem)
 // Retain the 4 KiB allocation until process exit: an in-flight hook can return.
 // Re-enabling allocates a fresh block. Pause in CE before either toggle.

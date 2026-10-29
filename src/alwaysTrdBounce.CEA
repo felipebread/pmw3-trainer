@@ -1,0 +1,40 @@
+// PMW3 PC: select the third normal butt-bounce attack on every stage start.
+
+[ENABLE]
+assert("PMA_W32_M.exe"+83383,8B 87 D0 00 00 00 3B C3 75 08 89 AE 14 04 00 00)
+assert("PMA_W32_M.exe"+833A5,83 F8 02 75 0A C7 86 14 04 00 00 03 00 00 00)
+assert("PMA_W32_M.exe"+8330A,8B 86 E0 07 00 00 B9 04 00 00 00 3B C1 DF E0 75 3B)
+
+alloc(pmwStrongBounceMem,$1000,"PMA_W32_M.exe"+83383)
+label(pmwStrongBounceDone)
+
+pmwStrongBounceMem:
+  // Replay the original load. The real combo counter remains untouched.
+  mov eax,[edi+D0]
+  pushfd
+  push edx
+  mov edx,["PMA_W32_M.exe"+3CDF3C]
+  test edx,edx
+  je pmwStrongBounceDone
+  mov edx,[edx+24]
+  test edx,edx
+  je pmwStrongBounceDone
+  cmp esi,edx
+  jne pmwStrongBounceDone
+  // The original selector maps zero-based counter 2 to attack stage 3.
+  // Super Stomp follows a different branch and never reaches this hook.
+  mov eax,2
+pmwStrongBounceDone:
+  pop edx
+  popfd
+  jmp "PMA_W32_M.exe"+83389
+
+"PMA_W32_M.exe"+83383:
+  jmp pmwStrongBounceMem
+  nop
+
+[DISABLE]
+"PMA_W32_M.exe"+83383:
+  db 8B 87 D0 00 00 00
+// Retain the 4 KiB allocation until process exit so an in-flight hook can return.
+// Each re-enable allocates a fresh block. The next stage uses normal selection.
