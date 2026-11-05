@@ -55,3 +55,10 @@
 - Cleaned up the UI
 - Removed debugging features.
 - No issues observed during testing.
+
+## PMW3_CT_beta1_3
+- Version Beta 1.3
+- Added: infnite rev roll time, instant rev roll and level loader
+- Final version before full fledged trainer
+- Moved usages and features to a separate file from readme.md
+- No issues observed during testing.

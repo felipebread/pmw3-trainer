@@ -1,0 +1,230 @@
+// Exact supported executable: see README.md. Enable while paused and idle.
+[ENABLE]
+assert("PMA_W32_M.exe"+183380,6A FF 68 79 C7 71 00 64 A1 00 00 00 00 50)
+assert("PMA_W32_M.exe"+168160,FF 25 A0 6F F5 00)
+assert("PMA_W32_M.exe"+39AEA8,01 00 00 00 00 23 4D 61 69 6E 20 4C 65 76 65 6C 73 00)
+assert("PMA_W32_M.exe"+39AF94,02 00 00 00 00 45 72 77 69 6E 73 5F 50 69 74 00)
+assert("PMA_W32_M.exe"+39B080,03 00 00 00 00 4F 75 74 63 61 73 74 73 5F 4F 75 74 70 6F 73 74 5F 31 00)
+assert("PMA_W32_M.exe"+39B16C,04 00 00 00 00 43 75 74 73 63 65 6E 65 54 65 73 74 32 00)
+assert("PMA_W32_M.exe"+39B258,05 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 31 00)
+assert("PMA_W32_M.exe"+39B344,06 00 00 00 00 47 6F 67 65 6B 6B 61 5F 32 00)
+assert("PMA_W32_M.exe"+39B430,07 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 32 00)
+assert("PMA_W32_M.exe"+39B51C,08 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 31 00)
+assert("PMA_W32_M.exe"+39B608,09 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 32 00)
+assert("PMA_W32_M.exe"+39B6F4,0A 00 00 00 00 47 6F 67 65 6B 6B 61 5F 33 00)
+assert("PMA_W32_M.exe"+39B7E0,0B 00 00 00 00 4F 75 74 63 61 73 74 73 5F 4F 75 74 70 6F 73 74 5F 32 00)
+assert("PMA_W32_M.exe"+39B8CC,0C 00 00 00 00 4F 75 74 63 61 73 74 73 5F 54 6F 63 6D 61 6E 00)
+assert("PMA_W32_M.exe"+39B9B8,0D 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 33 00)
+assert("PMA_W32_M.exe"+39BAA4,0E 00 00 00 00 47 6F 65 6E 5F 31 00)
+assert("PMA_W32_M.exe"+39BB90,0F 00 00 00 00 47 6F 65 6E 5F 32 00)
+assert("PMA_W32_M.exe"+39BC7C,10 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 33 00)
+assert("PMA_W32_M.exe"+39BD68,11 00 00 00 00 41 6E 63 69 65 6E 74 5F 54 65 6D 70 6C 65 00)
+assert("PMA_W32_M.exe"+39BE54,01 00 00 00 00 23 54 65 73 74 20 4C 65 76 65 6C 73 00)
+assert("PMA_W32_M.exe"+39BF40,12 00 00 00 01 54 65 73 74 4D 61 7A 65 32 39 00)
+assert("PMA_W32_M.exe"+39C02C,13 00 00 00 01 54 65 73 74 4D 61 7A 65 32 36 00)
+assert("PMA_W32_M.exe"+39C118,14 00 00 00 01 54 65 73 74 4D 61 7A 65 33 32 00)
+assert("PMA_W32_M.exe"+39C204,15 00 00 00 01 54 65 73 74 4D 61 7A 65 30 33 00)
+assert("PMA_W32_M.exe"+39C2F0,16 00 00 00 01 54 65 73 74 4D 61 7A 65 30 36 00)
+assert("PMA_W32_M.exe"+39C3DC,17 00 00 00 01 54 65 73 74 4D 61 7A 65 32 33 00)
+assert("PMA_W32_M.exe"+39C4C8,18 00 00 00 01 54 65 73 74 4D 61 7A 65 30 39 00)
+assert("PMA_W32_M.exe"+39C5B4,19 00 00 00 01 54 65 73 74 4D 61 7A 65 30 38 00)
+assert("PMA_W32_M.exe"+39C6A0,1A 00 00 00 01 54 65 73 74 4D 61 7A 65 31 32 00)
+assert("PMA_W32_M.exe"+39C78C,1B 00 00 00 01 54 65 73 74 4D 61 7A 65 33 34 00)
+assert("PMA_W32_M.exe"+39C878,1C 00 00 00 01 54 65 73 74 4D 61 7A 65 31 33 00)
+assert("PMA_W32_M.exe"+39C964,1D 00 00 00 01 54 65 73 74 4D 61 7A 65 32 38 00)
+assert("PMA_W32_M.exe"+39CA50,1E 00 00 00 01 54 65 73 74 4D 61 7A 65 32 37 00)
+assert("PMA_W32_M.exe"+39CB3C,1F 00 00 00 01 54 65 73 74 4D 61 7A 65 32 32 00)
+assert("PMA_W32_M.exe"+39CC28,20 00 00 00 01 54 65 73 74 4D 61 7A 65 31 36 00)
+assert("PMA_W32_M.exe"+39CD14,21 00 00 00 01 54 65 73 74 4D 61 7A 65 31 37 00)
+assert("PMA_W32_M.exe"+39CE00,22 00 00 00 01 54 65 73 74 4D 61 7A 65 33 33 00)
+assert("PMA_W32_M.exe"+39CEEC,23 00 00 00 01 54 65 73 74 4D 61 7A 65 30 34 00)
+assert("PMA_W32_M.exe"+39CFD8,24 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 32 36 00)
+assert("PMA_W32_M.exe"+39D0C4,25 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 30 36 00)
+assert("PMA_W32_M.exe"+39D1B0,26 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 30 38 00)
+assert("PMA_W32_M.exe"+39D29C,27 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 33 34 00)
+assert("PMA_W32_M.exe"+39D388,28 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 32 32 00)
+assert("PMA_W32_M.exe"+39D474,29 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 31 37 00)
+assert("PMA_W32_M.exe"+39D560,2A 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 33 33 00)
+assert("PMA_W32_M.exe"+39D64C,2B 00 00 00 00 4D 75 73 65 75 6D 00)
+assert("PMA_W32_M.exe"+39D738,2C 00 00 00 00 50 4D 57 33 46 72 6F 6E 74 45 6E 64 00)
+assert("PMA_W32_M.exe"+39D824,2D 00 00 00 00 00)
+alloc(pmwLLMem,1000,"PMA_W32_M.exe"+183380)
+label(pmwLLMonitor)
+label(pmwLLCheckReady)
+label(pmwLLInterrupted)
+label(pmwLLCommand)
+label(pmwLLAllowedTarget)
+label(pmwLLFindRecord)
+label(pmwLLFoundRecord)
+label(pmwLLBadTarget)
+label(pmwLLNotPlaying)
+label(pmwLLNoGame)
+label(pmwLLNoGameRequest)
+label(pmwLLNoWorld)
+label(pmwLLBusyReject)
+label(pmwLLBadTable)
+label(pmwLLReturn)
+label(pmwLLTarget)
+label(pmwLLRequest)
+label(pmwLLResult)
+label(pmwLLBusy)
+label(pmwLLExpectedIndex)
+label(pmwLLSeenTransition)
+label(pmwLLOwner)
+registersymbol(pmwLLTarget)
+registersymbol(pmwLLRequest)
+registersymbol(pmwLLResult)
+registersymbol(pmwLLBusy)
+
+pmwLLMem:
+  pushfd
+  pushad
+  // Consume the command even when it is rejected; no delayed menu request.
+  xor ebx,ebx
+  xchg ebx,[pmwLLRequest]
+  mov esi,["PMA_W32_M.exe"+3CDF50]
+  test esi,esi
+  je pmwLLNoGame
+  cmp ecx,esi
+  jne pmwLLNoGame
+  mov eax,[esi+18E4]
+pmwLLMonitor:
+  cmp dword ptr [pmwLLBusy],0
+  je pmwLLCommand
+  cmp [pmwLLOwner],esi
+  jne pmwLLInterrupted
+  cmp eax,12
+  je pmwLLCheckReady
+  mov dword ptr [pmwLLSeenTransition],1
+  jmp pmwLLCommand
+pmwLLCheckReady:
+  cmp dword ptr [pmwLLSeenTransition],0
+  je pmwLLCommand
+  cmp dword ptr [esi+19E4],0
+  je pmwLLCommand
+  mov edx,[esi+18E8]
+  cmp edx,[pmwLLExpectedIndex]
+  jne pmwLLInterrupted
+  mov dword ptr [pmwLLBusy],0
+  jmp pmwLLCommand
+pmwLLInterrupted:
+  mov dword ptr [pmwLLBusy],0
+pmwLLCommand:
+  test ebx,ebx
+  je pmwLLReturn
+  cmp ebx,1
+  jne pmwLLBadTarget
+  cmp dword ptr [pmwLLBusy],0
+  jne pmwLLBusyReject
+  mov eax,[pmwLLTarget]
+  cmp eax,2
+  jl pmwLLBadTarget
+  cmp eax,2C
+  jg pmwLLBadTarget
+  cmp eax,24
+  jl pmwLLAllowedTarget
+  cmp eax,2A
+  jle pmwLLBadTarget
+pmwLLAllowedTarget:
+  cmp dword ptr [esi+18E4],12
+  jne pmwLLNotPlaying
+  cmp dword ptr [esi+19E4],0
+  je pmwLLNoWorld
+  // Search the actual table: the test heading breaks ID = index + 1.
+  mov edi,1
+pmwLLFindRecord:
+  mov edx,edi
+  imul edx,edx,3B
+  shl edx,2
+  add edx,"PMA_W32_M.exe"+39AEA8
+  cmp dword ptr [edx],2D
+  je pmwLLBadTable
+  cmp [edx],eax
+  je pmwLLFoundRecord
+  inc edi
+  cmp edi,2D
+  jb pmwLLFindRecord
+  jmp pmwLLBadTable
+pmwLLFoundRecord:
+  mov ecx,[edx]
+  cmp ecx,eax
+  jne pmwLLBadTable
+  mov [pmwLLExpectedIndex],edi
+  mov [pmwLLOwner],esi
+  mov dword ptr [pmwLLSeenTransition],0
+  mov dword ptr [pmwLLBusy],1
+  mov dword ptr [pmwLLResult],1
+  // Preserve the interrupted Update context, including x87/SSE state.
+  mov ebp,esp
+  sub esp,210
+  and esp,FFFFFFF0
+  fxsave [esp]
+  fninit
+  mov ecx,esi
+  push edi
+  call "PMA_W32_M.exe"+168160
+  fxrstor [esp]
+  mov esp,ebp
+  cmp dword ptr [esi+18E4],12
+  je pmwLLReturn
+  mov dword ptr [pmwLLSeenTransition],1
+  jmp pmwLLReturn
+pmwLLBadTarget:
+  mov dword ptr [pmwLLResult],2
+  jmp pmwLLReturn
+pmwLLNotPlaying:
+  mov dword ptr [pmwLLResult],3
+  jmp pmwLLReturn
+pmwLLNoGame:
+  cmp dword ptr [pmwLLBusy],0
+  je pmwLLNoGameRequest
+  mov dword ptr [pmwLLBusy],0
+pmwLLNoGameRequest:
+  test ebx,ebx
+  je pmwLLReturn
+  mov dword ptr [pmwLLResult],4
+  jmp pmwLLReturn
+pmwLLNoWorld:
+  mov dword ptr [pmwLLResult],5
+  jmp pmwLLReturn
+pmwLLBusyReject:
+  mov dword ptr [pmwLLResult],6
+  jmp pmwLLReturn
+pmwLLBadTable:
+  mov dword ptr [pmwLLResult],7
+pmwLLReturn:
+  popad
+  popfd
+  // Replay both displaced pushes in the original SEH prologue.
+  push -1
+  push "PMA_W32_M.exe"+31C779
+  jmp "PMA_W32_M.exe"+183387
+
+pmwLLMem+F00:
+pmwLLTarget:
+  dd 8
+pmwLLRequest:
+  dd 0
+pmwLLResult:
+  dd 0
+pmwLLBusy:
+  dd 0
+pmwLLExpectedIndex:
+  dd FFFFFFFF
+pmwLLSeenTransition:
+  dd 0
+pmwLLOwner:
+  dd 0
+
+"PMA_W32_M.exe"+183380:
+  jmp pmwLLMem
+  db 90 90
+
+[DISABLE]
+"PMA_W32_M.exe"+183380:
+  db 6A FF 68 79 C7 71 00
+unregistersymbol(pmwLLTarget)
+unregistersymbol(pmwLLRequest)
+unregistersymbol(pmwLLResult)
+unregistersymbol(pmwLLBusy)
+// Retain the allocation until process exit for any in-flight callback.

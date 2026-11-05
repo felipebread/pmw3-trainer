@@ -1,0 +1,35 @@
+[ENABLE]
+assert("PMA_W32_M.exe"+15C229,8B 15 F0 9C 79 00 8B 83 30 04 00 00)
+assert("PMA_W32_M.exe"+15C210,8B 45 10 83 F8 03 56 57 89 4C 24 4C)
+assert("PMA_W32_M.exe"+15D014,29 C2 55 00 14 C7 55 00 7D CC 55 00 81 CD 55 00)
+assert("PMA_W32_M.exe"+33D554,D0 C1 55 00)
+assert("PMA_W32_M.exe"+399678,00 00 A0 41 00 00 70 42)
+alloc(pmwRRCMem,1000,"PMA_W32_M.exe"+15C229)
+label(pmwRRCOriginal)
+
+pmwRRCMem:
+  pushfd
+  push eax
+  // EBP = active state, EBX = player argument in the original Update.
+  cmp [ebx+8E4],ebp
+  jne pmwRRCOriginal
+  mov eax,[ebp]
+  cmp eax,"PMA_W32_M.exe"+33D54C
+  jne pmwRRCOriginal
+  // Copy the current full-charge float bits without touching the x87 stack.
+  mov eax,["PMA_W32_M.exe"+39967C]
+  mov [ebp+14],eax
+pmwRRCOriginal:
+  pop eax
+  popfd
+  mov edx,["PMA_W32_M.exe"+399CF0]
+  jmp "PMA_W32_M.exe"+15C22F
+
+"PMA_W32_M.exe"+15C229:
+  jmp pmwRRCMem
+  db 90
+
+[DISABLE]
+"PMA_W32_M.exe"+15C229:
+  db 8B 15 F0 9C 79 00
+// Retain this 4 KiB allocation until process exit for in-flight hook returns.

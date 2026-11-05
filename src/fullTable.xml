@@ -199,7 +199,7 @@ unregistersymbol(PMW3GiveRequest)
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
-          <ID>0</ID>
+          <ID>112</ID>
           <Description>"Super Speed"</Description>
           <Options moHideChildren="1"/>
           <VariableType>Auto Assembler Script</VariableType>
@@ -259,7 +259,7 @@ dealloc(pmwSpeedCode)
 </AssemblerScript>
           <CheatEntries>
             <CheatEntry>
-              <ID>1</ID>
+              <ID>113</ID>
               <Description>"Speed multiplier"</Description>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>Float</VariableType>
@@ -335,7 +335,7 @@ unregistersymbol(pmwSJData)
     </CheatEntry>
     <CheatEntry>
       <ID>107</ID>
-      <Description>"4. Bouncing"</Description>
+      <Description>"4. Abilities"</Description>
       <Options moHideChildren="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -478,7 +478,7 @@ unregistersymbol(pmwBounceHeightMultiplier)
           </CheatEntries>
         </CheatEntry>
         <CheatEntry>
-          <ID>112</ID>
+          <ID>114</ID>
           <Description>"Always Strongest Bounce"</Description>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>// PMW3 PC: select the third normal butt-bounce attack on every stage start.
@@ -523,11 +523,428 @@ pmwStrongBounceDone:
 // Each re-enable allocates a fresh block. The next stage uses normal selection.
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>1</ID>
+          <Description>"Instant Rev Roll Charging"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>// Normal PacManRevRoll charging phase only. Release the button to launch.
+// Enable/disable while the process is paused and Pac-Man is idle.
+[ENABLE]
+assert("PMA_W32_M.exe"+15C229,8B 15 F0 9C 79 00 8B 83 30 04 00 00)
+assert("PMA_W32_M.exe"+15C210,8B 45 10 83 F8 03 56 57 89 4C 24 4C)
+assert("PMA_W32_M.exe"+15D014,29 C2 55 00 14 C7 55 00 7D CC 55 00 81 CD 55 00)
+assert("PMA_W32_M.exe"+33D554,D0 C1 55 00)
+assert("PMA_W32_M.exe"+399678,00 00 A0 41 00 00 70 42)
+alloc(pmwRRCMem,1000,"PMA_W32_M.exe"+15C229)
+label(pmwRRCOriginal)
+
+pmwRRCMem:
+  pushfd
+  push eax
+  // EBP = active state, EBX = player argument in the original Update.
+  cmp [ebx+8E4],ebp
+  jne pmwRRCOriginal
+  mov eax,[ebp]
+  cmp eax,"PMA_W32_M.exe"+33D54C
+  jne pmwRRCOriginal
+  // Copy the current full-charge float bits without touching the x87 stack.
+  mov eax,["PMA_W32_M.exe"+39967C]
+  mov [ebp+14],eax
+pmwRRCOriginal:
+  pop eax
+  popfd
+  mov edx,["PMA_W32_M.exe"+399CF0]
+  jmp "PMA_W32_M.exe"+15C22F
+
+"PMA_W32_M.exe"+15C229:
+  jmp pmwRRCMem
+  db 90
+
+[DISABLE]
+"PMA_W32_M.exe"+15C229:
+  db 8B 15 F0 9C 79 00
+// Retain this 4 KiB allocation until process exit for in-flight hook returns.
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>0</ID>
+          <Description>"Infinite Rev Roll Time"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>// Bypass only normal RevRoll timer expiry. Native input/contact stops remain.
+// Elapsed time keeps advancing for the airborne speed ramp.
+// Enable/disable while the process is paused and Pac-Man is idle.
+[ENABLE]
+assert("PMA_W32_M.exe"+15C8A6,D9 45 14 D8 1D 1C D2 75 00 DF E0 F6 C4 05 0F 8B AC 03 00 00)
+assert("PMA_W32_M.exe"+15C8BA,8B 83 30 04 00 00 8B 48 48 8B 11 39 B2 40 05 00 00 0F 85 95 03 00 00)
+assert("PMA_W32_M.exe"+15CF9F,A1 B0 DD 7C 00 85 C0 74 18 D9 45 14 D8 1D 1C D2 75 00 DF E0 F6 C4 05 7A 08)
+assert("PMA_W32_M.exe"+15CF3D,53 8B CD E8 BB 20 FD FF)
+assert("PMA_W32_M.exe"+15CFC0,A1 EC 9C 79 00 8B 8B 30 04 00 00 69 C0 08 01 00 00)
+
+"PMA_W32_M.exe"+15C8B4:
+  // Original JNP to StopRolling when remaining time is negative.
+  db 90 90 90 90 90 90
+"PMA_W32_M.exe"+15CFA6:
+  // Always take the native 'no airborne timeout' route to the input check.
+  db EB 18
+
+[DISABLE]
+"PMA_W32_M.exe"+15C8B4:
+  db 0F 8B AC 03 00 00
+"PMA_W32_M.exe"+15CFA6:
+  db 74 18
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>115</ID>
+      <Description>"5. Game"</Description>
+      <Options moHideChildren="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>116</ID>
+          <Description>"Load Level (enable during gameplay)"</Description>
+          <Options moHideChildren="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>// Exact supported executable: see README.md. Enable while paused and idle.
+[ENABLE]
+assert("PMA_W32_M.exe"+183380,6A FF 68 79 C7 71 00 64 A1 00 00 00 00 50)
+assert("PMA_W32_M.exe"+168160,FF 25 A0 6F F5 00)
+assert("PMA_W32_M.exe"+39AEA8,01 00 00 00 00 23 4D 61 69 6E 20 4C 65 76 65 6C 73 00)
+assert("PMA_W32_M.exe"+39AF94,02 00 00 00 00 45 72 77 69 6E 73 5F 50 69 74 00)
+assert("PMA_W32_M.exe"+39B080,03 00 00 00 00 4F 75 74 63 61 73 74 73 5F 4F 75 74 70 6F 73 74 5F 31 00)
+assert("PMA_W32_M.exe"+39B16C,04 00 00 00 00 43 75 74 73 63 65 6E 65 54 65 73 74 32 00)
+assert("PMA_W32_M.exe"+39B258,05 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 31 00)
+assert("PMA_W32_M.exe"+39B344,06 00 00 00 00 47 6F 67 65 6B 6B 61 5F 32 00)
+assert("PMA_W32_M.exe"+39B430,07 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 32 00)
+assert("PMA_W32_M.exe"+39B51C,08 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 31 00)
+assert("PMA_W32_M.exe"+39B608,09 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 32 00)
+assert("PMA_W32_M.exe"+39B6F4,0A 00 00 00 00 47 6F 67 65 6B 6B 61 5F 33 00)
+assert("PMA_W32_M.exe"+39B7E0,0B 00 00 00 00 4F 75 74 63 61 73 74 73 5F 4F 75 74 70 6F 73 74 5F 32 00)
+assert("PMA_W32_M.exe"+39B8CC,0C 00 00 00 00 4F 75 74 63 61 73 74 73 5F 54 6F 63 6D 61 6E 00)
+assert("PMA_W32_M.exe"+39B9B8,0D 00 00 00 00 4D 6F 75 6E 74 61 69 6E 73 5F 33 00)
+assert("PMA_W32_M.exe"+39BAA4,0E 00 00 00 00 47 6F 65 6E 5F 31 00)
+assert("PMA_W32_M.exe"+39BB90,0F 00 00 00 00 47 6F 65 6E 5F 32 00)
+assert("PMA_W32_M.exe"+39BC7C,10 00 00 00 00 53 70 65 63 74 72 61 6C 5F 52 65 61 6C 6D 5F 33 00)
+assert("PMA_W32_M.exe"+39BD68,11 00 00 00 00 41 6E 63 69 65 6E 74 5F 54 65 6D 70 6C 65 00)
+assert("PMA_W32_M.exe"+39BE54,01 00 00 00 00 23 54 65 73 74 20 4C 65 76 65 6C 73 00)
+assert("PMA_W32_M.exe"+39BF40,12 00 00 00 01 54 65 73 74 4D 61 7A 65 32 39 00)
+assert("PMA_W32_M.exe"+39C02C,13 00 00 00 01 54 65 73 74 4D 61 7A 65 32 36 00)
+assert("PMA_W32_M.exe"+39C118,14 00 00 00 01 54 65 73 74 4D 61 7A 65 33 32 00)
+assert("PMA_W32_M.exe"+39C204,15 00 00 00 01 54 65 73 74 4D 61 7A 65 30 33 00)
+assert("PMA_W32_M.exe"+39C2F0,16 00 00 00 01 54 65 73 74 4D 61 7A 65 30 36 00)
+assert("PMA_W32_M.exe"+39C3DC,17 00 00 00 01 54 65 73 74 4D 61 7A 65 32 33 00)
+assert("PMA_W32_M.exe"+39C4C8,18 00 00 00 01 54 65 73 74 4D 61 7A 65 30 39 00)
+assert("PMA_W32_M.exe"+39C5B4,19 00 00 00 01 54 65 73 74 4D 61 7A 65 30 38 00)
+assert("PMA_W32_M.exe"+39C6A0,1A 00 00 00 01 54 65 73 74 4D 61 7A 65 31 32 00)
+assert("PMA_W32_M.exe"+39C78C,1B 00 00 00 01 54 65 73 74 4D 61 7A 65 33 34 00)
+assert("PMA_W32_M.exe"+39C878,1C 00 00 00 01 54 65 73 74 4D 61 7A 65 31 33 00)
+assert("PMA_W32_M.exe"+39C964,1D 00 00 00 01 54 65 73 74 4D 61 7A 65 32 38 00)
+assert("PMA_W32_M.exe"+39CA50,1E 00 00 00 01 54 65 73 74 4D 61 7A 65 32 37 00)
+assert("PMA_W32_M.exe"+39CB3C,1F 00 00 00 01 54 65 73 74 4D 61 7A 65 32 32 00)
+assert("PMA_W32_M.exe"+39CC28,20 00 00 00 01 54 65 73 74 4D 61 7A 65 31 36 00)
+assert("PMA_W32_M.exe"+39CD14,21 00 00 00 01 54 65 73 74 4D 61 7A 65 31 37 00)
+assert("PMA_W32_M.exe"+39CE00,22 00 00 00 01 54 65 73 74 4D 61 7A 65 33 33 00)
+assert("PMA_W32_M.exe"+39CEEC,23 00 00 00 01 54 65 73 74 4D 61 7A 65 30 34 00)
+assert("PMA_W32_M.exe"+39CFD8,24 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 32 36 00)
+assert("PMA_W32_M.exe"+39D0C4,25 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 30 36 00)
+assert("PMA_W32_M.exe"+39D1B0,26 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 30 38 00)
+assert("PMA_W32_M.exe"+39D29C,27 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 33 34 00)
+assert("PMA_W32_M.exe"+39D388,28 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 32 32 00)
+assert("PMA_W32_M.exe"+39D474,29 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 31 37 00)
+assert("PMA_W32_M.exe"+39D560,2A 00 00 00 01 4D 75 6C 74 69 4D 61 7A 65 33 33 00)
+assert("PMA_W32_M.exe"+39D64C,2B 00 00 00 00 4D 75 73 65 75 6D 00)
+assert("PMA_W32_M.exe"+39D738,2C 00 00 00 00 50 4D 57 33 46 72 6F 6E 74 45 6E 64 00)
+assert("PMA_W32_M.exe"+39D824,2D 00 00 00 00 00)
+alloc(pmwLLMem,1000,"PMA_W32_M.exe"+183380)
+label(pmwLLMonitor)
+label(pmwLLCheckReady)
+label(pmwLLInterrupted)
+label(pmwLLCommand)
+label(pmwLLAllowedTarget)
+label(pmwLLFindRecord)
+label(pmwLLFoundRecord)
+label(pmwLLBadTarget)
+label(pmwLLNotPlaying)
+label(pmwLLNoGame)
+label(pmwLLNoGameRequest)
+label(pmwLLNoWorld)
+label(pmwLLBusyReject)
+label(pmwLLBadTable)
+label(pmwLLReturn)
+label(pmwLLTarget)
+label(pmwLLRequest)
+label(pmwLLResult)
+label(pmwLLBusy)
+label(pmwLLExpectedIndex)
+label(pmwLLSeenTransition)
+label(pmwLLOwner)
+registersymbol(pmwLLTarget)
+registersymbol(pmwLLRequest)
+registersymbol(pmwLLResult)
+registersymbol(pmwLLBusy)
+
+pmwLLMem:
+  pushfd
+  pushad
+  // Consume the command even when it is rejected; no delayed menu request.
+  xor ebx,ebx
+  xchg ebx,[pmwLLRequest]
+  mov esi,["PMA_W32_M.exe"+3CDF50]
+  test esi,esi
+  je pmwLLNoGame
+  cmp ecx,esi
+  jne pmwLLNoGame
+  mov eax,[esi+18E4]
+pmwLLMonitor:
+  cmp dword ptr [pmwLLBusy],0
+  je pmwLLCommand
+  cmp [pmwLLOwner],esi
+  jne pmwLLInterrupted
+  cmp eax,12
+  je pmwLLCheckReady
+  mov dword ptr [pmwLLSeenTransition],1
+  jmp pmwLLCommand
+pmwLLCheckReady:
+  cmp dword ptr [pmwLLSeenTransition],0
+  je pmwLLCommand
+  cmp dword ptr [esi+19E4],0
+  je pmwLLCommand
+  mov edx,[esi+18E8]
+  cmp edx,[pmwLLExpectedIndex]
+  jne pmwLLInterrupted
+  mov dword ptr [pmwLLBusy],0
+  jmp pmwLLCommand
+pmwLLInterrupted:
+  mov dword ptr [pmwLLBusy],0
+pmwLLCommand:
+  test ebx,ebx
+  je pmwLLReturn
+  cmp ebx,1
+  jne pmwLLBadTarget
+  cmp dword ptr [pmwLLBusy],0
+  jne pmwLLBusyReject
+  mov eax,[pmwLLTarget]
+  cmp eax,2
+  jl pmwLLBadTarget
+  cmp eax,2C
+  jg pmwLLBadTarget
+  cmp eax,24
+  jl pmwLLAllowedTarget
+  cmp eax,2A
+  jle pmwLLBadTarget
+pmwLLAllowedTarget:
+  cmp dword ptr [esi+18E4],12
+  jne pmwLLNotPlaying
+  cmp dword ptr [esi+19E4],0
+  je pmwLLNoWorld
+  // Search the actual table: the test heading breaks ID = index + 1.
+  mov edi,1
+pmwLLFindRecord:
+  mov edx,edi
+  imul edx,edx,3B
+  shl edx,2
+  add edx,"PMA_W32_M.exe"+39AEA8
+  cmp dword ptr [edx],2D
+  je pmwLLBadTable
+  cmp [edx],eax
+  je pmwLLFoundRecord
+  inc edi
+  cmp edi,2D
+  jb pmwLLFindRecord
+  jmp pmwLLBadTable
+pmwLLFoundRecord:
+  mov ecx,[edx]
+  cmp ecx,eax
+  jne pmwLLBadTable
+  mov [pmwLLExpectedIndex],edi
+  mov [pmwLLOwner],esi
+  mov dword ptr [pmwLLSeenTransition],0
+  mov dword ptr [pmwLLBusy],1
+  mov dword ptr [pmwLLResult],1
+  // Preserve the interrupted Update context, including x87/SSE state.
+  mov ebp,esp
+  sub esp,210
+  and esp,FFFFFFF0
+  fxsave [esp]
+  fninit
+  mov ecx,esi
+  push edi
+  call "PMA_W32_M.exe"+168160
+  fxrstor [esp]
+  mov esp,ebp
+  cmp dword ptr [esi+18E4],12
+  je pmwLLReturn
+  mov dword ptr [pmwLLSeenTransition],1
+  jmp pmwLLReturn
+pmwLLBadTarget:
+  mov dword ptr [pmwLLResult],2
+  jmp pmwLLReturn
+pmwLLNotPlaying:
+  mov dword ptr [pmwLLResult],3
+  jmp pmwLLReturn
+pmwLLNoGame:
+  cmp dword ptr [pmwLLBusy],0
+  je pmwLLNoGameRequest
+  mov dword ptr [pmwLLBusy],0
+pmwLLNoGameRequest:
+  test ebx,ebx
+  je pmwLLReturn
+  mov dword ptr [pmwLLResult],4
+  jmp pmwLLReturn
+pmwLLNoWorld:
+  mov dword ptr [pmwLLResult],5
+  jmp pmwLLReturn
+pmwLLBusyReject:
+  mov dword ptr [pmwLLResult],6
+  jmp pmwLLReturn
+pmwLLBadTable:
+  mov dword ptr [pmwLLResult],7
+pmwLLReturn:
+  popad
+  popfd
+  // Replay both displaced pushes in the original SEH prologue.
+  push -1
+  push "PMA_W32_M.exe"+31C779
+  jmp "PMA_W32_M.exe"+183387
+
+pmwLLMem+F00:
+pmwLLTarget:
+  dd 8
+pmwLLRequest:
+  dd 0
+pmwLLResult:
+  dd 0
+pmwLLBusy:
+  dd 0
+pmwLLExpectedIndex:
+  dd FFFFFFFF
+pmwLLSeenTransition:
+  dd 0
+pmwLLOwner:
+  dd 0
+
+"PMA_W32_M.exe"+183380:
+  jmp pmwLLMem
+  db 90 90
+
+[DISABLE]
+"PMA_W32_M.exe"+183380:
+  db 6A FF 68 79 C7 71 00
+unregistersymbol(pmwLLTarget)
+unregistersymbol(pmwLLRequest)
+unregistersymbol(pmwLLResult)
+unregistersymbol(pmwLLBusy)
+// Retain the allocation until process exit for any in-flight callback.
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>117</ID>
+              <Description>"Target level (value)"</Description>
+              <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">2:Bot Boneyard (ID 2)
+3:Banni Wastelands (ID 3)
+4:Erwin's Lab Cutscene (ID 4)
+5:The Spectral Cliffs (ID 5)
+6:Gogekka Central (ID 6)
+7:The Spectral Vale (ID 7)
+8:Zephyr Heights (ID 8)
+9:Ancient Catacombs (ID 9)
+10:Gogekka Heights (ID 10)
+11:Banni Canyon (ID 11)
+12:Toc-Man Battle (ID 12)
+13:Cragstone Bridge (ID 13)
+14:Erwin's Fortress (ID 14)
+15:Dungen Gunden (ID 15)
+16:The Spectral Zenith (ID 16)
+17:Shadow Temple (ID 17)
+18:Maze Game 29 (ID 18)
+19:Maze Game 26 (ID 19)
+20:Maze Game 32 (ID 20)
+21:Maze Game 03 (ID 21)
+22:Maze Game 06 (ID 22)
+23:Maze Game 23 (ID 23)
+24:Maze Game 09 (ID 24)
+25:Maze Game 08 (ID 25)
+26:Maze Game 12 (ID 26)
+27:Maze Game 34 (ID 27)
+28:Maze Game 13 (ID 28)
+29:Maze Game 28 (ID 29)
+30:Maze Game 27 (ID 30)
+31:Maze Game 22 (ID 31)
+32:Maze Game 16 (ID 32)
+33:Maze Game 17 (ID 33)
+34:Maze Game 33 (ID 34)
+35:Maze Game 04 (ID 35)
+43:Namco Museum Test (ID 43)
+44:*FrontEndErwinsPit (ID 44)
+</DropDownList>
+              <VariableType>4 Bytes</VariableType>
+              <Address>pmwLLTarget</Address>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>118</ID>
+                  <Description>"Load selected level (activate)"</Description>
+                  <VariableType>Auto Assembler Script</VariableType>
+                  <AssemblerScript>[ENABLE]
+{$lua}
+if syntaxcheck then return end
+local busy = getAddressSafe('pmwLLBusy')
+local request = getAddressSafe('pmwLLRequest')
+local result = getAddressSafe('pmwLLResult')
+if not busy or not request or not result then
+  error('Enable Load Level first.')
+end
+local gameAddress = getAddressSafe('"PMA_W32_M.exe"+3CDF50')
+local game = gameAddress and readInteger(gameAddress)
+if not game or game == 0 or readInteger(game + 0x18E4) ~= 18
+   or not readInteger(game + 0x19E4) or readInteger(game + 0x19E4) == 0 then
+  error('Wait until normal gameplay has resumed before loading a level.')
+end
+if readInteger(busy) ~= 0 or readInteger(request) ~= 0 then
+  error('A level load is already in progress.')
+end
+local record = memrec
+local timer = createTimer(nil, false)
+timer.Interval = 100
+timer.OnTimer = function(t)
+  local ok, active = pcall(function() return record.Active and record.Parent.Active end)
+  if not ok or not active then
+    t.destroy()
+    pcall(function() record.Active = false end)
+    return
+  end
+  if readInteger(request) ~= 0 then return end
+  local value = readInteger(result)
+  t.destroy()
+  pcall(function() record.Active = false end)
+  if value and value &gt; 1 then
+    local messages = {
+      [2]='Unsupported level or command.', [3]='Wait for normal gameplay.',
+      [4]='Game mode unavailable.', [5]='No active world.',
+      [6]='A level load is already in progress.', [7]='Level table mismatch.'
+    }
+    showMessage('Level load rejected: '..(messages[value] or tostring(value)))
+  end
+end
+if not writeInteger(result, 0) or not writeInteger(request, 1) then
+  timer.destroy()
+  error('Could not submit the level load request.')
+end
+timer.Enabled = true
+{$asm}
+[DISABLE]
+</AssemblerScript>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
-  <Comments>Beta 1.2.
-PS the multipliers might not be on a linear scale.
+  <Comments>beta 1.3
+ps. the mulitpliers might not be on a linear scale.
 </Comments>
 </CheatTable>
