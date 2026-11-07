@@ -2,7 +2,7 @@
 
 <h1>Pac-Man World 3 Trainer</h1>
 
-<p><strong>Gameplay tweaks and tools for Pac-Man's PC adventure.</strong></p>
+<p><strong>Gameplay tweaks and tools for Pac-Man's last <sup><sub>(as of November 2026)</sub></sup> adventure.</strong></p>
 
 <p>
 Currently available as a <strong>Cheat Engine table</strong>,<br>
