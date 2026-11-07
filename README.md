@@ -1,8 +1,30 @@
-# Pac-Man World 3 Trainer
+<div align="center">
 
-A Cheat Engine trainer (currently just a cheat table) for the PC version of **Pac-Man World 3**, with many cool features. Similar to my FPS uncap patch, this also targets the RELOADED NoDisc PAL release.
+<h1>Pac-Man World 3 Trainer</h1>
 
-**Current version: Beta 1.3 (PMW3_CT_beta1_3)**
+<p><strong>Gameplay tweaks and tools for Pac-Man's PC adventure.</strong></p>
+
+<p>
+Currently available as a <strong>Cheat Engine table</strong>,<br>
+with a standalone trainer and custom interface planned.
+</p>
+
+<p>
+<kbd>Beta 1.3</kbd> &nbsp; <kbd>PAL PC</kbd> &nbsp; <kbd>Cheat Engine 7.6+</kbd>
+</p>
+
+<p>Current build: <code>PMW3_CT_beta1_3</code></p>
+
+<p>
+<a href="#features">Features</a> &nbsp;&middot;&nbsp;
+<a href="#roadmap">Roadmap</a> &nbsp;&middot;&nbsp;
+<a href="CHANGELOGS.md">Changelog</a> &nbsp;&middot;&nbsp;
+<a href="LICENSE">Available under public domain</a>
+</p>
+
+</div>
+
+---
 
 ### AI Disclaimer
 <sup><sub>Reported Engagement with AI Level</sub></sup>
@@ -44,6 +66,16 @@ Compatibility with other game executables, operating systems, or Cheat Engine ve
 ## Version history
 
 See [CHANGELOGS.md](CHANGELOGS.md) for the version history.
+
+## Special thanks/credits
+
+The following did not directly contribute to development but their prior work facilitated/acted as reference for mine.
+
+[Pac-Modder](https://www.youtube.com/@Pac-Modder) Vast game research
+
+[YukiKaco](https://github.com/asd9176506911298) Research on levels
+
+[PinkyHi13](https://www.youtube.com/@PinkyHi13/) Game modding
 
 ## License
 
